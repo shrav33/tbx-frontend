@@ -36,7 +36,7 @@ export default function AdminDashboard() {
   const fetchQuotes = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('/api/admin/quotes', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get('/api/admin/quotes', { headers: { Authorization: `Bearer ${token}` } });
       setQuotes(res.data.data);
     } catch (err) {
       if ([401, 403].includes(err.response?.status)) {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import toast from 'react-hot-toast';
 import { Gift, Lock, User, Eye, EyeOff } from 'lucide-react';
 
@@ -17,7 +17,7 @@ export default function AdminLogin() {
     if (!form.username || !form.password) { toast.error('Please enter credentials.'); return; }
     setLoading(true);
     try {
-      const res = await axios.post('/api/admin/login', form);
+      const res = await api.post('/api/admin/login', form);
       localStorage.setItem('adminToken', res.data.token);
       toast.success('Welcome back, Admin!');
       navigate('/admin/dashboard');
