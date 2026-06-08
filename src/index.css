@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Reset ─────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    overflow-x: hidden;
+  }
+  select option { background: #fff; color: #1a1a1a; }
+}
+
+/* ─── Design tokens ──────────────────────── */
+@layer components {
+
+  /* Card */
+  .card {
+    @apply bg-white border border-gold-200 rounded-2xl shadow-card transition-all duration-300;
+  }
+  .card:hover { @apply shadow-card-hover; }
+
+  /* Gold gradient text */
+  .text-gold {
+    background: linear-gradient(135deg, #c9a84c 0%, #a8872a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gold accent line */
+  .gold-line {
+    @apply block w-14 h-0.5 rounded-full mt-3 mb-1;
+    background: linear-gradient(90deg, #d4af37, #c9a84c);
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-white transition-all duration-300 cursor-pointer select-none;
+    background: linear-gradient(135deg, #c9a84c, #a8872a);
+    box-shadow: 0 4px 20px rgba(201,168,76,0.30);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #d4af37, #c9a84c);
+    box-shadow: 0 6px 28px rgba(201,168,76,0.45);
+    transform: translateY(-1px);
+  }
+
+  /* Outline button */
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold border transition-all duration-300 cursor-pointer select-none;
+    border-color: #c9a84c;
+    color: #a8872a;
+  }
+  .btn-outline:hover {
+    background: linear-gradient(135deg, #c9a84c, #a8872a);
+    @apply text-white border-transparent;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.30);
+    transform: translateY(-1px);
+  }
+
+  /* Section label */
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-widest;
+    color: #c9a84c;
+  }
+
+  /* Section heading */
+  .section-title {
+    @apply font-display font-bold text-charcoal-900 leading-tight;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  /* Form input */
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl border border-gold-200 bg-cream-50 text-charcoal-900 placeholder-charcoal-400 outline-none transition-all duration-200 text-sm;
+  }
+  .form-input:focus {
+    @apply border-gold-400;
+    box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-charcoal-600 mb-1.5;
+  }
+}
+
+/* ─── Layout helpers ─────────────────────── */
+.page-section      { @apply py-20 md:py-28; }
+.section-inner     { @apply max-w-7xl mx-auto px-6; }
+.section-center    { @apply text-center max-w-2xl mx-auto mb-14; }
+
+/* ─── Reveal animation ───────────────────── */
+@keyframes revealUp {
+  from { opacity:0; transform:translateY(32px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.reveal-up { animation: revealUp 0.7s ease-out forwards; }
+
+/* ─── Scrollbar ──────────────────────────── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #fdf9ef; }
+::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+
+/* ─── Divider line ───────────────────────── */
+.gold-divider {
+  width: 56px; height: 3px; border-radius: 99px;
+  background: linear-gradient(90deg, #d4af37, #c9a84c);
+  margin: 12px auto 0;
+}
