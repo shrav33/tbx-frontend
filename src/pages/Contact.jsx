@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import toast from 'react-hot-toast';
 import { Send, CheckCircle, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
@@ -56,7 +56,7 @@ export default function Contact() {
     if (Object.keys(v).length > 0) { setErrors(v); toast.error('Please fix the highlighted fields.'); return; }
     setLoading(true);
     try {
-      await axios.post('/api/quotes', { ...form, quantity: Number(form.quantity) });
+      await api.post('/api/quotes', { ...form, quantity: Number(form.quantity) });
       setSubmitted(true);
       toast.success('Quote request submitted!');
     } catch (err) {

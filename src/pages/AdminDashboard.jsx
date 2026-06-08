@@ -48,7 +48,7 @@ export default function AdminDashboard() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/admin/quotes/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await api.delete(`/api/admin/quotes/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       setQuotes((p) => p.filter((q) => q._id !== id));
       setDeleteConf(null);
       if (selected?._id === id) setSelected(null);
