@@ -1,234 +1,369 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Users, Package, Award, Gift } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const categories = [
-  { id: 'onboarding', emoji: '🎒', title: 'Employee Onboarding Kits',    desc: 'Make every new hire feel welcomed with thoughtfully curated starter packs.' },
-  { id: 'festive',    emoji: '🎁', title: 'Festive & Seasonal Hampers',  desc: 'Celebrate every occasion with premium hampers that leave lasting impressions.' },
-  { id: 'executive',  emoji: '💼', title: 'Executive Gifts',             desc: 'Exclusive, sophisticated gifts for your top performers and VIP clients.' },
-  { id: 'leather',    emoji: '👜', title: 'Premium Leather Collection',  desc: 'Handcrafted leather diaries, wallets, and portfolios of the finest quality.' },
-  { id: 'branded',    emoji: '🏷️', title: 'Branded Merchandise',        desc: 'Customised merchandise that puts your brand in every hand.' },
-  { id: 'custom',     emoji: '📦', title: 'Custom Corporate Gift Boxes', desc: 'Bespoke gift box solutions designed around your brand identity.' },
+/* ─────────────────────────────────────────────────────────────
+   SLIDESHOW DATA
+   Image files go in:  public/images/home/
+   File names expected (replace the empty div with <img> later):
+     collection-onboarding.png
+     collection-festive.png
+     collection-executive.png
+     collection-leather.png
+     collection-branded.png
+     collection-custom.png
+───────────────────────────────────────────────────────────── */
+const slides = [
+  {
+    id: 'onboarding', num: '01', badge: 'Most Popular',
+    title: 'Employee Onboarding Kits',
+    desc: 'Make every new hire feel valued from Day 1 with thoughtfully curated welcome kits that reflect your company culture.',
+    category: 'Employee Onboarding Kits',
+    img: '/images/home/collection-onboarding.png',
+  },
+  {
+    id: 'festive', num: '02', badge: 'Seasonal Special',
+    title: 'Festive & Seasonal Hampers',
+    desc: 'Celebrate Diwali, Christmas, and New Year with premium hampers that leave a lasting impression on clients and employees.',
+    category: 'Festive & Seasonal Hampers',
+    img: '/images/home/collection-festive.png',
+  },
+  {
+    id: 'executive', num: '03', badge: 'Premium Tier',
+    title: 'Executive Gifts',
+    desc: 'Reserved for top performers and high-value clients. Crafted from the finest materials, these gifts speak for themselves.',
+    category: 'Executive Gifts',
+    img: '/images/home/collection-executive.png',
+  },
+  {
+    id: 'leather', num: '04', badge: 'Handcrafted',
+    title: 'Premium Leather Collection',
+    desc: 'Handcrafted products by skilled artisans — a perfect blend of tradition and modern corporate elegance, embossed with your logo.',
+    category: 'Premium Leather Collection',
+    img: '/images/home/collection-leather.png',
+  },
+  {
+    id: 'branded', num: '05', badge: 'High Volume',
+    title: 'Branded Merchandise',
+    desc: 'Amplify your brand presence with high-quality merchandise that people actually use — ideal for events and large-scale gifting.',
+    category: 'Branded Merchandise',
+    img: '/images/home/collection-branded.png',
+  },
+  {
+    id: 'custom', num: '06', badge: 'Bespoke',
+    title: 'Custom Corporate Gift Boxes',
+    desc: 'Completely bespoke gifting solutions — every element chosen by you, from box design to products, inserts, and messaging.',
+    category: 'Custom Corporate Gift Boxes',
+    img: '/images/home/collection-custom.png',
+  },
 ];
 
-const stats = [
-  { icon: Users,   value: '500+',    label: 'Happy Clients' },
-  { icon: Package, value: '10,000+', label: 'Gifts Delivered' },
-  { icon: Star,    value: '4.9/5',   label: 'Client Rating' },
-  { icon: Award,   value: '8+',      label: 'Years of Excellence' },
-];
-
-const testimonials = [
-  { name: 'Priya Sharma',  role: 'HR Director, TechCorp India',  text: 'GiftCraft transformed our onboarding experience. Every new hire was genuinely thrilled with their kit.' },
-  { name: 'Rajesh Kumar',  role: 'CEO, InnovateMart',            text: 'We ordered 300 executive gift hampers for Diwali. The quality and packaging was world-class.' },
-  { name: 'Anita Patel',   role: 'Events Manager, GlobalEdge',   text: 'Fantastic service! From quotation to delivery, everything was smooth and professional.' },
+const whyUs = [
+  { title: 'Full Customisation',   desc: 'Every gift is tailored — logos, colours, packaging, and personal message cards designed around your brand.' },
+  { title: 'On-Time Delivery',     desc: 'We guarantee timely delivery across India so you never miss an occasion, no matter the order size.' },
+  { title: 'Premium Quality',      desc: 'Sourced from the finest vendors with strict quality checks before every order leaves our facility.' },
+  { title: 'Dedicated Support',    desc: 'A personal gifting consultant is assigned to your account from the first inquiry through delivery.' },
+  { title: 'Competitive Pricing',  desc: 'Bulk order discounts and flexible tiers designed to accommodate any corporate budget.' },
+  { title: 'Eco-Friendly Options', desc: 'Sustainable, recyclable, and ethically sourced gifting alternatives available on every category.' },
 ];
 
 export default function Home() {
+  const [active, setActive] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  const goTo = (idx) => {
+    if (idx === active) return;
+    setFading(true);
+    setTimeout(() => {
+      setActive(idx);
+      setFading(false);
+    }, 280);
+  };
+
+  const prev = () => goTo((active - 1 + slides.length) % slides.length);
+  const next = () => goTo((active + 1) % slides.length);
+
+  /* Auto-advance every 5 s; resets whenever active changes */
+  useEffect(() => {
+    const id = setTimeout(next, 5000);
+    return () => clearTimeout(id);
+  }, [active]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const slide = slides[active];
+
   return (
-    <main className="min-h-screen pt-16 bg-white">
+    <main className="min-h-screen" style={{ backgroundColor: '#FAF7F2' }}>
 
-      {/* ── Hero ─────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #fffef9 0%, #fdf8ec 60%, #faf3d8 100%)' }}>
-        {/* Subtle decorative ring */}
-        <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full border border-gold-200 opacity-60 pointer-events-none" />
-        <div className="absolute top-20 right-10 w-[240px] h-[240px] rounded-full border border-gold-100 opacity-40 pointer-events-none" />
+      {/* ── HERO ─────────────────────────────────── */}
+      <section
+        className="relative flex items-center overflow-hidden pt-[68px]"
+        style={{ minHeight: '100vh', backgroundColor: '#FAF7F2' }}
+      >
+        {/* Decorative background letter */}
+        <div
+          className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none hidden lg:block"
+          aria-hidden="true"
+          style={{
+            fontFamily: '"Playfair Display", Georgia, serif',
+            fontSize: '38vw',
+            fontWeight: 700,
+            color: '#D4B06A',
+            opacity: 0.045,
+            lineHeight: 1,
+            right: '-6vw',
+          }}
+        >
+          G
+        </div>
 
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-14 items-center py-24 md:py-32">
-          {/* Text */}
-          <div className="text-center lg:text-left reveal-up">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-100 text-gold-700 text-xs font-semibold uppercase tracking-wider mb-6">
-              <Gift size={13} /> Premium Corporate Gifting
-            </span>
-            <h1 className="section-title mb-5">
-              Gifts That Speak<br />
-              <span className="text-gold">Louder Than Words</span>
+        <div className="relative max-w-7xl mx-auto px-6 w-full py-24 md:py-32">
+          <div className="max-w-3xl reveal-up">
+            <p className="section-label mb-8">Premium Corporate Gifting — India</p>
+            <h1 className="hero-title mb-9">
+              Gifts That Make<br />
+              Every Occasion{' '}
+              <em style={{ color: '#E67722', fontStyle: 'italic' }}>Unforgettable.</em>
             </h1>
-            <p className="text-charcoal-600 text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
-              From employee onboarding kits to festive hampers and executive collections —
-              we craft gifting experiences that strengthen relationships and embody your brand.
+            <p className="text-base md:text-lg mb-10 max-w-lg" style={{ color: '#555555', lineHeight: '1.85' }}>
+              From employee onboarding kits to executive hampers and festive collections —
+              we craft premium gifting experiences that strengthen relationships and make your
+              brand unforgettable.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link to="/contact" id="hero-get-quote-btn" className="btn-primary">
-                Get a Free Quote <ArrowRight size={16} />
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link to="/contact" id="hero-quote-btn" className="btn-primary">
+                Request a Quote <ArrowRight size={16} />
               </Link>
               <Link to="/collections" id="hero-collections-btn" className="btn-outline">
-                View Collections
+                Browse Collections
               </Link>
             </div>
-
-            {/* Social proof */}
-            <div className="mt-10 flex items-center gap-3 justify-center lg:justify-start">
-              <div className="flex -space-x-2">
-                {['P','R','A','S'].map((l, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white"
-                       style={{ background: 'linear-gradient(135deg,#d4af37,#a8872a)' }}>
-                    {l}
-                  </div>
-                ))}
-              </div>
-              <div>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={12} className="text-gold-500 fill-gold-500" />)}
-                </div>
-                <p className="text-charcoal-400 text-xs">Trusted by 500+ companies</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Visual card */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-sm animate-float">
-              <div className="card p-7 shadow-gold">
-                <div className="text-5xl text-center mb-5">🎁</div>
-                <h3 className="font-display text-lg font-semibold text-charcoal-900 text-center mb-5">
-                  Our Gift Categories
-                </h3>
-                <ul className="space-y-2.5 mb-6">
-                  {categories.slice(0, 4).map((c) => (
-                    <li key={c.id} className="flex items-center gap-3 py-2 px-3 rounded-lg bg-cream-100 border border-gold-100">
-                      <span className="text-lg">{c.emoji}</span>
-                      <span className="text-charcoal-700 text-sm font-medium">{c.title}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/collections" className="btn-primary w-full justify-center text-sm">
-                  See All Collections <ArrowRight size={14} />
-                </Link>
-              </div>
-              {/* Badges */}
-              <div className="absolute -top-4 -left-4 card px-3 py-2 shadow-gold-sm text-xs">
-                <p className="text-charcoal-400">Min Order</p>
-                <p className="text-gold-600 font-bold">50 units</p>
-              </div>
-              <div className="absolute -bottom-4 -right-4 card px-3 py-2 shadow-gold-sm text-xs">
-                <p className="text-charcoal-400">Delivery</p>
-                <p className="text-gold-600 font-bold">Pan India 🇮🇳</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Stats ────────────────────────────── */}
-      <section className="py-14 bg-white border-y border-gold-100">
+      {/* ── COLLECTIONS SLIDESHOW ────────────────── */}
+      <section style={{ backgroundColor: '#FFFFFF' }} className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="text-center group">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl border border-gold-200 bg-cream-100 flex items-center justify-center group-hover:shadow-gold-sm transition-all duration-300">
-                  <Icon size={20} className="text-gold-600" />
-                </div>
-                <p className="font-display text-3xl font-bold text-charcoal-900">{value}</p>
-                <p className="text-charcoal-400 text-sm mt-1">{label}</p>
+
+          {/* Header */}
+          <div className="mb-10 flex items-end justify-between">
+            <div>
+              <p className="section-label mb-3">Our Collections</p>
+              <h2 className="section-title">Gifting for Every<br />Corporate Occasion</h2>
+            </div>
+            <Link
+              to="/collections"
+              className="hidden md:inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-70"
+              style={{ color: '#1A1A1D', letterSpacing: '0.03em' }}
+            >
+              View All <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {/* Slide panel */}
+          <div className="border" style={{ borderColor: 'rgba(26,26,29,0.09)' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-12" style={{ minHeight: '460px' }}>
+
+              {/* ── IMAGE AREA (left, 7/12) ─────────────
+                  To add images later:
+                  Replace the inner <div> with:
+                  <img
+                    src={slide.img}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
+                  Image files → public/images/home/collection-{id}.png
+              ──────────────────────────────────────── */}
+              <div
+                className="lg:col-span-7 relative overflow-hidden"
+                style={{ minHeight: '260px', backgroundColor: '#EDE8E0' }}
+              >
+                <img
+                  src={slide.img}
+                  alt={slide.title}
+                  className="w-full h-full object-cover"
+                  style={{
+                    position: 'absolute', inset: 0,
+                    opacity: fading ? 0 : 1,
+                    transition: 'opacity 0.28s ease',
+                  }}
+                />
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── Featured categories ───────────────── */}
-      <section className="page-section bg-cream-100">
-        <div className="section-inner">
-          <div className="section-center">
-            <p className="section-label">Our Collection</p>
-            <h2 className="section-title mt-2">Explore Gift Categories</h2>
-            <div className="gold-divider" />
-            <p className="text-charcoal-500 mt-4 text-base">
-              Curated gifting solutions designed for every corporate occasion and budget.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((cat) => (
-              <div key={cat.id} className="card p-6 group hover:-translate-y-1 cursor-pointer">
-                <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110 inline-block">
-                  {cat.emoji}
-                </div>
-                <h3 className="font-display text-lg font-semibold text-charcoal-900 mb-2">{cat.title}</h3>
-                <p className="text-charcoal-500 text-sm leading-relaxed mb-4">{cat.desc}</p>
-                <Link to="/collections" className="inline-flex items-center gap-1.5 text-gold-600 text-sm font-semibold hover:gap-3 transition-all duration-200">
-                  View Details <ArrowRight size={13} />
+              {/* ── CONTENT AREA (right, 5/12) ─────────── */}
+              <div
+                className="lg:col-span-5 flex flex-col justify-center px-8 md:px-12 py-12 bg-white"
+                style={{
+                  opacity: fading ? 0 : 1,
+                  transition: 'opacity 0.28s ease',
+                }}
+              >
+                <p
+                  className="text-xs font-semibold uppercase mb-5"
+                  style={{ color: '#D4B06A', letterSpacing: '0.2em' }}
+                >
+                  {slide.num} — {slide.badge}
+                </p>
+                <h3
+                  className="font-display text-2xl md:text-3xl font-bold mb-4 leading-tight"
+                  style={{ color: '#1A1A1D' }}
+                >
+                  {slide.title}
+                </h3>
+                <p className="text-sm mb-8" style={{ color: '#666666', lineHeight: '1.8' }}>
+                  {slide.desc}
+                </p>
+                <Link
+                  to={`/contact?category=${encodeURIComponent(slide.category)}`}
+                  id={`slide-enquire-${slide.id}`}
+                  className="btn-primary self-start"
+                >
+                  Enquire Now <ArrowRight size={14} />
                 </Link>
               </div>
-            ))}
+            </div>
           </div>
 
-          <div className="text-center mt-10">
-            <Link to="/collections" id="categories-view-all-btn" className="btn-primary">
-              View All Collections <ArrowRight size={16} />
+          {/* Navigation row */}
+          <div className="flex items-center justify-between mt-5">
+
+            {/* Dot indicators */}
+            <div className="flex items-center gap-2">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  id={`slide-dot-${i}`}
+                  onClick={() => goTo(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                  className="transition-all duration-300"
+                  style={{
+                    width: i === active ? '24px' : '8px',
+                    height: '8px',
+                    borderRadius: 0,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: i === active ? '#FF9E35' : 'rgba(26,26,29,0.18)',
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Prev / Next arrows */}
+            <div className="flex gap-2">
+              <button
+                id="slide-prev"
+                onClick={prev}
+                className="w-10 h-10 flex items-center justify-center border transition-all duration-200"
+                style={{ borderColor: 'rgba(26,26,29,0.20)', color: '#1A1A1D' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#1A1A1D'; e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1A1A1D'; }}
+                aria-label="Previous slide"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                id="slide-next"
+                onClick={next}
+                className="w-10 h-10 flex items-center justify-center border transition-all duration-200"
+                style={{ borderColor: 'rgba(26,26,29,0.20)', color: '#1A1A1D' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#1A1A1D'; e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1A1A1D'; }}
+                aria-label="Next slide"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile: View All button */}
+          <div className="mt-7 lg:hidden">
+            <Link to="/collections" id="mobile-view-all-btn" className="btn-outline w-full justify-center">
+              View All Collections
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Why Us ───────────────────────────── */}
-      <section className="page-section bg-white">
-        <div className="section-inner">
-          <div className="section-center">
-            <p className="section-label">Why GiftCraft</p>
-            <h2 className="section-title mt-2">Crafted for Corporate Excellence</h2>
-            <div className="gold-divider" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-            {[
-              { emoji: '🎨', title: 'Full Customisation', desc: 'Every gift is tailored — logos, colours, packaging, and personal message cards.' },
-              { emoji: '🚀', title: 'On-Time Delivery',   desc: 'We guarantee timely delivery across India so you never miss an occasion.' },
-              { emoji: '💎', title: 'Premium Quality',    desc: 'Sourced from the finest vendors with strict quality checks on every product.' },
-              { emoji: '📞', title: 'Dedicated Support',  desc: 'A gifting consultant assigned to your account from inquiry to delivery.' },
-              { emoji: '💰', title: 'Competitive Pricing',desc: 'Bulk order discounts and flexible pricing tiers for any budget.' },
-              { emoji: '🌿', title: 'Eco-Friendly Options',desc: 'Sustainable, recyclable, and ethically sourced gifting alternatives available.' },
-            ].map((item) => (
-              <div key={item.title} className="card p-6 group hover:-translate-y-1">
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 inline-block">{item.emoji}</div>
-                <h3 className="font-display text-base font-semibold text-charcoal-900 mb-2">{item.title}</h3>
-                <p className="text-charcoal-500 text-sm leading-relaxed">{item.desc}</p>
+      {/* ── WHY CHOOSE US ────────────────────────── */}
+      <section style={{ backgroundColor: '#FAF7F2' }} className="py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
+
+            {/* Left statement */}
+            <div className="lg:col-span-4">
+              <p className="section-label mb-4">Why Choose Us</p>
+              <h2 className="section-title mb-6">Gifting Excellence</h2>
+              <p className="text-sm mb-8" style={{ color: '#666666', lineHeight: '1.85' }}>
+                We've spent years perfecting the art of corporate gifting —
+                building systems, supplier relationships, and a service culture that consistently
+                delivers above expectations.
+              </p>
+              <Link to="/about" className="btn-primary">
+                Our Story <ArrowRight size={15} />
+              </Link>
+            </div>
+
+            {/* Right: Numbered reasons */}
+            <div className="lg:col-span-8">
+              <div className="grid sm:grid-cols-2 gap-0">
+                {whyUs.map((item, i) => (
+                  <div
+                    key={item.title}
+                    className="border-b py-7 px-0 sm:px-6"
+                    style={{ borderColor: 'rgba(26,26,29,0.09)' }}
+                  >
+                    <div className="flex items-baseline gap-3 mb-2">
+                      <span className="font-display text-xs font-bold" style={{ color: '#D4B06A', letterSpacing: '0.1em' }}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <h3 className="font-display text-base font-bold" style={{ color: '#1A1A1D' }}>
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm pl-7" style={{ color: '#666666', lineHeight: '1.75' }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Testimonials ─────────────────────── */}
-      <section className="page-section bg-cream-100">
-        <div className="section-inner">
-          <div className="section-center">
-            <p className="section-label">Testimonials</p>
-            <h2 className="section-title mt-2">What Our Clients Say</h2>
-            <div className="gold-divider" />
+      {/* ── CTA ──────────────────────────────────── */}
+      <section style={{ backgroundColor: '#FF9E35' }} className="py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <p
+              className="text-xs font-semibold uppercase mb-4"
+              style={{ color: '#1A1A1D', opacity: 0.55, letterSpacing: '0.22em' }}
+            >
+              Ready to Begin?
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl font-bold leading-tight" style={{ color: '#1A1A1D' }}>
+              Elevate Your<br />Corporate Gifting.
+            </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="card p-7 group hover:-translate-y-1">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => <Star key={j} size={14} className="text-gold-500 fill-gold-500" />)}
-                </div>
-                <p className="text-charcoal-600 text-sm leading-relaxed mb-5 italic">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
-                       style={{ background: 'linear-gradient(135deg,#d4af37,#a8872a)' }}>
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <p className="text-charcoal-900 font-semibold text-sm">{t.name}</p>
-                    <p className="text-charcoal-400 text-xs">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col items-start md:items-end gap-5">
+            <p
+              className="text-base md:text-right"
+              style={{ color: '#1A1A1D', opacity: 0.70, lineHeight: '1.7', maxWidth: '340px' }}
+            >
+              Submit your brief and receive a personalised, itemised quotation from our
+              gifting consultants within 24 hours.
+            </p>
+            <Link
+              to="/contact"
+              id="cta-quote-btn"
+              className="inline-flex items-center gap-2.5 px-8 py-4 text-sm font-semibold border-2 transition-all duration-200"
+              style={{ borderColor: '#1A1A1D', color: '#1A1A1D', letterSpacing: '0.03em' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#1A1A1D'; e.currentTarget.style.color = '#FF9E35'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1A1A1D'; }}
+            >
+              Request a Free Quote <ArrowRight size={15} />
+            </Link>
           </div>
-        </div>
-      </section>
-
-      {/* ── CTA Banner ───────────────────────── */}
-      <section className="py-20 border-t border-gold-100 text-center" style={{ background: 'linear-gradient(135deg,#fdf8ec,#faf3d8)' }}>
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="section-title mb-4">Ready to Elevate Your Corporate Gifting?</h2>
-          <p className="text-charcoal-500 text-lg mb-8">
-            Submit your inquiry and receive a personalised quote within 24 hours.
-          </p>
-          <Link to="/contact" id="cta-banner-btn" className="btn-primary text-base px-10 py-4">
-            Get Your Free Quote Today <ArrowRight size={18} />
-          </Link>
         </div>
       </section>
     </main>

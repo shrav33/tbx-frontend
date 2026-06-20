@@ -1,50 +1,58 @@
 import { Link } from 'react-router-dom';
-import { Gift, Mail, Phone, MapPin, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-charcoal-900 text-white pt-16 pb-8">
+    <footer style={{ backgroundColor: '#1A1A1D' }} className="pt-16 pb-10">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
-          {/* Brand */}
-          <div>
-            <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-                   style={{ background: 'linear-gradient(135deg,#d4af37,#a8872a)' }}>
-                <Gift size={17} className="text-white" />
-              </div>
-              <span className="font-display text-xl font-bold">
-                Gift<span className="text-gold">Craft</span>
-              </span>
-            </Link>
-            <p className="text-charcoal-400 text-sm leading-relaxed">
-              Premium corporate gifting solutions that strengthen relationships and reflect your brand's values.
-            </p>
-            <div className="flex gap-3 mt-5">
-              {[Instagram, Linkedin, Twitter].map((Icon, i) => (
-                <a key={i} href="#"
-                   className="w-9 h-9 rounded-full border border-charcoal-600 flex items-center justify-center text-charcoal-400 hover:text-gold-400 hover:border-gold-500 transition-all duration-200">
-                  <Icon size={15} />
-                </a>
-              ))}
-            </div>
-          </div>
+        {/* Top: Logo + tagline */}
+        <div
+          className="pb-12 mb-12 border-b"
+          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+        >
+          <Link to="/" className="inline-flex items-center gap-2.5 mb-4 group">
+            <img
+              src="/logo.png"
+              alt="GiftCraft logo"
+              className="w-8 h-8 object-contain transition-opacity group-hover:opacity-80"
+              style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg)' }}
+            />
+            <span className="font-display text-xl font-bold text-white tracking-tight group-hover:opacity-80 transition-opacity">
+              Gift<span style={{ color: '#FF9E35' }}>Craft</span>
+            </span>
+          </Link>
+          <p className="text-sm max-w-xs" style={{ color: 'rgba(255,255,255,0.50)' }}>
+            India's premium corporate gifting partner. Trusted by 500+ organisations since 2016.
+          </p>
+        </div>
+
+        {/* Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-5 text-base">Quick Links</h4>
-            <ul className="space-y-3">
+            <h4
+              className="text-xs font-semibold uppercase mb-6"
+              style={{ color: '#FF9E35', letterSpacing: '0.2em' }}
+            >
+              Quick Links
+            </h4>
+            <ul className="space-y-3.5">
               {[
-                { name: 'Home',        path: '/' },
-                { name: 'Collections', path: '/collections' },
-                { name: 'About Us',    path: '/about' },
+                { name: 'Home',            path: '/' },
+                { name: 'Collections',     path: '/collections' },
+                { name: 'About Us',        path: '/about' },
                 { name: 'Request a Quote', path: '/contact' },
                 { name: 'Admin Portal',    path: '/admin' },
               ].map((link) => (
                 <li key={link.name}>
-                  <Link to={link.path}
-                        className="text-charcoal-400 hover:text-gold-400 text-sm transition-colors duration-200">
+                  <Link
+                    to={link.path}
+                    className="text-sm transition-colors duration-200"
+                    style={{ color: 'rgba(255,255,255,0.55)' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#D4B06A')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.55)')}
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -52,10 +60,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Collections */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-5 text-base">Gift Categories</h4>
-            <ul className="space-y-3">
+            <h4
+              className="text-xs font-semibold uppercase mb-6"
+              style={{ color: '#FF9E35', letterSpacing: '0.2em' }}
+            >
+              Collections
+            </h4>
+            <ul className="space-y-3.5">
               {[
                 'Employee Onboarding Kits',
                 'Festive & Seasonal Hampers',
@@ -65,7 +78,13 @@ export default function Footer() {
                 'Custom Gift Boxes',
               ].map((cat) => (
                 <li key={cat}>
-                  <Link to="/collections" className="text-charcoal-400 hover:text-gold-400 text-sm transition-colors duration-200">
+                  <Link
+                    to="/collections"
+                    className="text-sm transition-colors duration-200"
+                    style={{ color: 'rgba(255,255,255,0.55)' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#D4B06A')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.55)')}
+                  >
                     {cat}
                   </Link>
                 </li>
@@ -75,25 +94,68 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-5 text-base">Contact</h4>
-            <ul className="space-y-4">
+            <h4
+              className="text-xs font-semibold uppercase mb-6"
+              style={{ color: '#FF9E35', letterSpacing: '0.2em' }}
+            >
+              Contact
+            </h4>
+            <ul className="space-y-5">
               {[
-                { Icon: Mail,   val: 'hello@giftcraft.co' },
-                { Icon: Phone,  val: '+91 98765 43210' },
-                { Icon: MapPin, val: 'Mumbai, Maharashtra, India' },
-              ].map(({ Icon, val }) => (
-                <li key={val} className="flex items-start gap-3">
-                  <Icon size={15} className="text-gold-400 mt-0.5 shrink-0" />
-                  <span className="text-charcoal-400 text-sm">{val}</span>
+                { label: 'Email',   val: 'hello@giftcraft.co' },
+                { label: 'Phone',   val: '+91 98765 43210' },
+                { label: 'Address', val: 'Mumbai, Maharashtra, India' },
+                { label: 'Hours',   val: 'Mon–Sat, 9 AM – 7 PM' },
+              ].map(({ label, val }) => (
+                <li key={label}>
+                  <p
+                    className="text-xs font-semibold uppercase mb-0.5"
+                    style={{ color: '#D4B06A', letterSpacing: '0.12em' }}
+                  >
+                    {label}
+                  </p>
+                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.60)' }}>{val}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Why GiftCraft */}
+          <div>
+            <h4
+              className="text-xs font-semibold uppercase mb-6"
+              style={{ color: '#FF9E35', letterSpacing: '0.2em' }}
+            >
+              Why GiftCraft
+            </h4>
+            <ul className="space-y-3 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              {[
+                'Minimum 50 unit orders',
+                'Full logo & brand customisation',
+                'Quote within 24 hours',
+                'Pan India delivery',
+                'Dedicated account manager',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <span style={{ color: '#FF9E35', marginTop: '2px' }}>—</span>
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-charcoal-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-charcoal-600 text-xs">© {new Date().getFullYear()} GiftCraft Corporate. All rights reserved.</p>
-          <p className="text-charcoal-600 text-xs">Crafted with ♥ for corporate excellence</p>
+        {/* Bottom bar */}
+        <div
+          className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-6 border-t"
+          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+        >
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.28)' }}>
+            © {new Date().getFullYear()} GiftCraft Corporate. All rights reserved.
+          </p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.28)' }}>
+            Crafted with excellence for corporate India
+          </p>
         </div>
       </div>
     </footer>

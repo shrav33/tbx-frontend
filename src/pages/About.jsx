@@ -1,172 +1,235 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Target, Eye, Heart, Zap } from 'lucide-react';
-
-const milestones = [
-  { year: '2016', event: 'Founded in Mumbai with a vision to redefine corporate gifting.' },
-  { year: '2018', event: 'Expanded to serve 100+ corporate clients across India.' },
-  { year: '2020', event: 'Launched premium leather and eco-friendly gift lines.' },
-  { year: '2022', event: 'Crossed 5,000 bulk orders and entered pan-India delivery.' },
-  { year: '2024', event: 'Partnered with Fortune 500 companies for exclusive gifting programs.' },
-];
+import { ArrowRight } from 'lucide-react';
 
 const team = [
-  { name: 'Arjun Mehta',   role: 'Founder & CEO',         emoji: '👨‍💼' },
-  { name: 'Sneha Iyer',    role: 'Head of Design',         emoji: '👩‍🎨' },
-  { name: 'Vikram Nair',   role: 'Operations Director',    emoji: '👨‍💻' },
-  { name: 'Priya Kapoor',  role: 'Client Relations Lead',  emoji: '👩‍💼' },
+  { name: 'Arjun Mehta',   role: 'Founder & CEO',        initial: 'A' },
+  { name: 'Sneha Iyer',    role: 'Head of Design',        initial: 'S' },
+  { name: 'Vikram Nair',   role: 'Operations Director',   initial: 'V' },
+  { name: 'Priya Kapoor',  role: 'Client Relations Lead', initial: 'P' },
+];
+
+const values = [
+  { title: 'Craft',      desc: 'We treat every gift as a creative act — selecting, curating, and assembling with the eye of a designer, not just a vendor.' },
+  { title: 'Trust',      desc: 'Our client relationships are built on transparency, honest pricing, and the consistency of delivering exactly what we promise.' },
+  { title: 'Excellence', desc: 'We do not settle for "good enough." Every product is quality-checked, every package inspected before it leaves our hands.' },
+  { title: 'Care',       desc: 'We genuinely care about the experience of every gift recipient — because that experience reflects directly on your brand.' },
+];
+
+const trust = [
+  { val: '500+',    label: 'Corporate Clients',   sub: 'Across India and beyond' },
+  { val: '10,000+', label: 'Gifts Delivered',     sub: 'With care and precision' },
+  { val: '4.9/5',   label: 'Client Satisfaction', sub: 'Based on post-delivery surveys' },
+  { val: '8 Years', label: 'Of Excellence',        sub: 'Founded 2016, trusted since' },
 ];
 
 export default function About() {
   return (
-    <main className="min-h-screen bg-white pt-16">
+    <main className="min-h-screen pt-[68px]" style={{ backgroundColor: '#FAF7F2' }}>
 
-      {/* Hero */}
-      <section className="py-24 text-center border-b border-gold-100"
-               style={{ background: 'linear-gradient(160deg,#fffef9 0%,#fdf8ec 60%,#faf3d8 100%)' }}>
-        <div className="max-w-3xl mx-auto px-6 reveal-up">
-          <p className="section-label mb-3">Our Story</p>
-          <h1 className="section-title mb-4">About <span className="text-gold">GiftCraft</span></h1>
-          <div className="gold-divider" />
-          <p className="text-charcoal-500 text-lg leading-relaxed mt-5">
-            We are a premium corporate gifting company dedicated to helping businesses build
-            meaningful connections through thoughtfully curated gifts and personalised experiences.
-          </p>
+      {/* ── Hero / Brand Story ────────────────────── */}
+      <section
+        className="py-24 md:py-36 border-b"
+        style={{ backgroundColor: '#FAF7F2', borderColor: 'rgba(26,26,29,0.08)' }}
+      >
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+
+          {/* Left: Story heading */}
+          <div className="lg:col-span-5">
+            <p className="section-label mb-6">Our Story</p>
+            <h1 className="hero-title">
+              About<br />
+              <em style={{ color: '#E67722', fontStyle: 'italic' }}>GiftCraft</em>
+            </h1>
+          </div>
+
+          {/* Right: Story body */}
+          <div className="lg:col-span-7 lg:pt-4">
+            <div className="w-12 h-px mb-8" style={{ backgroundColor: '#FF9E35' }} />
+            <p
+              className="text-base md:text-lg mb-6"
+              style={{ color: '#333333', lineHeight: '1.9' }}
+            >
+              GiftCraft was founded in 2016 with a simple conviction: that corporate gifting
+              should be an art, not a transaction. What began as a boutique gifting studio in
+              Mumbai has grown into one of India's most trusted corporate gifting partners —
+              serving Fortune 500 companies, ambitious startups, and everyone in between.
+            </p>
+            <p
+              className="text-base"
+              style={{ color: '#666666', lineHeight: '1.85' }}
+            >
+              Over eight years, we have delivered more than 10,000 orders across India,
+              built relationships with the finest artisan suppliers, and refined every aspect
+              of our process — so that every gift we send carries the same care and intention
+              as if it were a personal gift from you.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="page-section bg-white">
-        <div className="section-inner">
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            <div className="card p-8 group hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-xl border border-gold-200 bg-cream-100 flex items-center justify-center mb-5 group-hover:shadow-gold-sm transition-all duration-300">
-                <Target size={22} className="text-gold-600" />
-              </div>
-              <h2 className="font-display text-2xl font-bold text-charcoal-900 mb-3">Our Mission</h2>
-              <p className="text-charcoal-500 leading-relaxed text-sm">
+      {/* ── Mission & Vision ─────────────────────── */}
+      <section style={{ backgroundColor: '#FFFFFF' }} className="py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-0">
+
+            {/* Mission */}
+            <div className="pr-0 md:pr-16 pb-14 md:pb-0 border-b md:border-b-0 md:border-r" style={{ borderColor: 'rgba(26,26,29,0.09)' }}>
+              <div className="w-10 h-0.5 mb-8" style={{ backgroundColor: '#FF9E35' }} />
+              <p className="section-label mb-4">Our Mission</p>
+              <h2 className="font-display text-3xl font-bold mb-6" style={{ color: '#1A1A1D' }}>
+                Make Every Gift Feel Personal
+              </h2>
+              <p className="text-sm" style={{ color: '#666666', lineHeight: '1.9' }}>
                 To simplify the corporate gifting journey by offering a seamless, digital-first
                 platform where companies can discover, customise, and request premium gifting
-                solutions that truly reflect their brand values and appreciation for people who matter most.
+                solutions that truly reflect their brand values and appreciation for the people
+                who matter most.
               </p>
             </div>
-            <div className="card p-8 group hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-xl border border-gold-200 bg-cream-100 flex items-center justify-center mb-5 group-hover:shadow-gold-sm transition-all duration-300">
-                <Eye size={22} className="text-gold-600" />
-              </div>
-              <h2 className="font-display text-2xl font-bold text-charcoal-900 mb-3">Our Vision</h2>
-              <p className="text-charcoal-500 leading-relaxed text-sm">
-                To become India's most trusted corporate gifting brand — known for unmatched quality,
-                creative personalisation, and the ability to make every recipient feel genuinely valued.
-                We envision gifting as a powerful business strategy, not just a formality.
+
+            {/* Vision */}
+            <div className="pl-0 md:pl-16 pt-14 md:pt-0">
+              <div className="w-10 h-0.5 mb-8" style={{ backgroundColor: '#D4B06A' }} />
+              <p className="section-label mb-4">Our Vision</p>
+              <h2 className="font-display text-3xl font-bold mb-6" style={{ color: '#1A1A1D' }}>
+                India's Most Trusted Gifting Brand
+              </h2>
+              <p className="text-sm" style={{ color: '#666666', lineHeight: '1.9' }}>
+                To become India's most trusted corporate gifting brand — known for unmatched
+                quality, creative personalisation, and the ability to make every recipient feel
+                genuinely valued. We envision gifting as a powerful business strategy, not a
+                seasonal obligation.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Company Values ────────────────────────── */}
+      <section
+        className="py-20 md:py-28 border-t"
+        style={{ backgroundColor: '#FAF7F2', borderColor: 'rgba(26,26,29,0.08)' }}
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-16">
+            <p className="section-label mb-3">What We Believe</p>
+            <h2 className="section-title">Our Core Values</h2>
           </div>
 
-          {/* Values */}
-          <div className="text-center mb-12">
-            <p className="section-label mb-2">Core Values</p>
-            <h2 className="section-title">What We Stand For</h2>
-            <div className="gold-divider" />
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Heart, title: 'Passion',    desc: 'Every gift is curated with genuine care and attention to detail.' },
-              { icon: Zap,   title: 'Excellence', desc: 'We settle for nothing less than the highest quality in products and service.' },
-              { icon: Target,title: 'Integrity',  desc: 'Transparent pricing, honest timelines, and reliable delivery — always.' },
-              { icon: Eye,   title: 'Innovation', desc: 'Continuously evolving our offerings to stay ahead of gifting trends.' },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="card p-6 text-center group hover:-translate-y-1">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-xl border border-gold-200 bg-cream-100 flex items-center justify-center group-hover:shadow-gold-sm transition-all duration-300">
-                  <Icon size={20} className="text-gold-600" />
-                </div>
-                <h3 className="font-display text-base font-semibold text-charcoal-900 mb-2">{title}</h3>
-                <p className="text-charcoal-500 text-sm leading-relaxed">{desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+            {values.map((v, i) => (
+              <div
+                key={v.title}
+                className={`py-10 ${i < 3 ? 'lg:pr-10 lg:border-r' : ''} ${i > 0 ? 'lg:pl-10' : ''} ${i > 0 ? 'border-t sm:border-t-0' : ''}`}
+                style={{ borderColor: 'rgba(26,26,29,0.08)' }}
+              >
+                <div className="w-8 h-px mb-6" style={{ backgroundColor: '#FF9E35' }} />
+                <h3 className="font-display text-2xl font-bold mb-3" style={{ color: '#1A1A1D' }}>
+                  {v.title}
+                </h3>
+                <p className="text-sm" style={{ color: '#666666', lineHeight: '1.8' }}>
+                  {v.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Services */}
-      <section className="page-section bg-cream-100 border-t border-gold-100">
-        <div className="section-inner">
-          <div className="section-center">
-            <p className="section-label">What We Offer</p>
-            <h2 className="section-title mt-2">Our Services</h2>
-            <div className="gold-divider" />
+      {/* ── Why Businesses Trust Us ──────────────── */}
+      <section style={{ backgroundColor: '#1A1A1D' }} className="py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="mb-16">
+            <p
+              className="text-xs font-semibold uppercase mb-4"
+              style={{ color: '#FF9E35', letterSpacing: '0.22em' }}
+            >
+              Proof Points
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight">
+              Why Businesses<br />
+              <em style={{ color: '#FF9E35', fontStyle: 'italic' }}>Trust GiftCraft</em>
+            </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-            {[
-              { emoji: '🎯', title: 'Bulk Order Management', desc: 'Efficiently handle orders from 50 to 50,000 units with streamlined logistics and quality control.' },
-              { emoji: '🖨️', title: 'Brand Customisation',   desc: 'Full logo printing, custom packaging, branded ribbon, and personalised message cards.' },
-              { emoji: '🚚', title: 'Pan India Delivery',     desc: 'Reliable last-mile delivery across all major cities and tier-2/3 towns in India.' },
-              { emoji: '📊', title: 'Catalogue Consultation', desc: 'Our experts help you select the right products matching your budget and occasion.' },
-              { emoji: '🌱', title: 'Eco-Conscious Gifting',  desc: 'Sustainable, recyclable, and ethically sourced gifting options available on request.' },
-              { emoji: '📋', title: 'Quick Quotation',        desc: 'Receive a detailed, itemised quote within 24 hours of submitting your inquiry.' },
-            ].map((s) => (
-              <div key={s.title} className="card p-6 group hover:-translate-y-1">
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 inline-block">{s.emoji}</div>
-                <h3 className="font-display text-base font-semibold text-charcoal-900 mb-2">{s.title}</h3>
-                <p className="text-charcoal-500 text-sm leading-relaxed">{s.desc}</p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+            {trust.map(({ val, label, sub }, i) => (
+              <div
+                key={label}
+                className={`py-8 ${i < 3 ? 'border-r' : ''} ${i > 0 ? 'pl-8' : ''}`}
+                style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+              >
+                <p
+                  className="font-display text-4xl md:text-5xl font-bold mb-2 leading-none"
+                  style={{ color: '#FF9E35' }}
+                >
+                  {val}
+                </p>
+                <p className="text-sm font-semibold text-white mb-1">{label}</p>
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.40)' }}>{sub}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="page-section bg-white border-t border-gold-100">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <p className="section-label mb-2">Since 2016</p>
-            <h2 className="section-title">Our Journey</h2>
-            <div className="gold-divider" />
+      {/* ── Team ─────────────────────────────────── */}
+      <section
+        className="py-20 md:py-28 border-t"
+        style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(26,26,29,0.08)' }}
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-14">
+            <p className="section-label mb-3">The Team</p>
+            <h2 className="section-title">The Minds Behind<br />GiftCraft</h2>
           </div>
-          <div className="relative">
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gold-200" />
-            <div className="space-y-8">
-              {milestones.map((m, i) => (
-                <div key={m.year} className={`relative flex items-start gap-6 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full border-2 border-gold-400 bg-white mt-1.5 z-10" />
-                  <div className={`ml-10 md:ml-0 md:w-5/12 card p-5 hover:-translate-y-0.5 ${i % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'}`}>
-                    <span className="font-display text-gold-600 font-bold text-lg">{m.year}</span>
-                    <p className="text-charcoal-500 text-sm mt-1 leading-relaxed">{m.event}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Team */}
-      <section className="page-section bg-cream-100 border-t border-gold-100">
-        <div className="section-inner">
-          <div className="section-center">
-            <p className="section-label">The Team</p>
-            <h2 className="section-title mt-2">Meet the Gifting Experts</h2>
-            <div className="gold-divider" />
-          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {team.map((t) => (
-              <div key={t.name} className="card p-6 text-center group hover:-translate-y-1">
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 inline-block">{t.emoji}</div>
-                <h3 className="font-semibold text-charcoal-900 text-sm">{t.name}</h3>
-                <p className="text-charcoal-400 text-xs mt-1">{t.role}</p>
+              <div key={t.name}>
+                <div
+                  className="w-full aspect-square flex items-center justify-center mb-5 transition-all duration-300"
+                  style={{ backgroundColor: '#FAF7F2', border: '1px solid rgba(26,26,29,0.07)' }}
+                >
+                  <span
+                    className="font-display font-bold select-none"
+                    style={{ fontSize: '4rem', color: '#FF9E35', opacity: 0.6 }}
+                  >
+                    {t.initial}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-sm" style={{ color: '#1A1A1D' }}>{t.name}</h3>
+                <p className="text-xs mt-1" style={{ color: '#AAAAAA' }}>{t.role}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 text-center border-t border-gold-100"
-               style={{ background: 'linear-gradient(135deg,#fdf8ec,#faf3d8)' }}>
-        <div className="max-w-2xl mx-auto px-6">
-          <h2 className="section-title mb-4">Let's Create Something Special</h2>
-          <p className="text-charcoal-500 mb-8">Request a quote today and let our team craft the perfect gifting solution for your brand.</p>
-          <Link to="/contact" id="about-cta-btn" className="btn-primary">
-            Request a Quote <ArrowRight size={16} />
+      {/* ── CTA ──────────────────────────────────── */}
+      <section style={{ backgroundColor: '#FF9E35' }} className="py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div>
+            <p
+              className="text-xs font-semibold uppercase mb-4"
+              style={{ color: '#1A1A1D', opacity: 0.5, letterSpacing: '0.22em' }}
+            >
+              Let's Work Together
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight" style={{ color: '#1A1A1D' }}>
+              Let's Create Something<br />Truly Special.
+            </h2>
+          </div>
+          <Link
+            to="/contact"
+            id="about-cta-btn"
+            className="shrink-0 inline-flex items-center gap-2.5 px-8 py-4 text-sm font-semibold border-2 transition-all duration-200"
+            style={{ borderColor: '#1A1A1D', color: '#1A1A1D', letterSpacing: '0.03em' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#1A1A1D'; e.currentTarget.style.color = '#FF9E35'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1A1A1D'; }}
+          >
+            Request a Quote <ArrowRight size={15} />
           </Link>
         </div>
       </section>
