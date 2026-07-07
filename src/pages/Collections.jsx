@@ -142,11 +142,11 @@ export default function Collections() {
             className="card grid grid-cols-1 md:grid-cols-2 overflow-hidden"
             style={{ backgroundColor: '#FFFFFF' }}
           >
-            <div className="overflow-hidden order-1 md:order-2">
+            <div className="overflow-hidden order-1 md:order-2 flex items-center" style={{ backgroundColor: '#FAF7F2' }}>
               <img
                 src={`/images/home/collection-${featured.id}.png`}
                 alt={featured.title}
-                className="w-full h-full object-cover block min-h-[280px]"
+                className="w-full h-auto block"
               />
             </div>
 
