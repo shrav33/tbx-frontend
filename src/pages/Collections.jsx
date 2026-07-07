@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Package } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 
 const products = [
   {
-    id: 'onboarding', badge: 'Most Popular',
+    id: 'onboarding', num: '01', badge: 'Most Popular',
     title: 'Employee Onboarding Kits',
     tagline: 'Welcome every new hire the right way',
     desc: 'Make a lasting first impression with thoughtfully curated onboarding kits reflecting your company culture from Day 1.',
@@ -12,7 +12,7 @@ const products = [
     moq: '50 units', turnaround: '7–10 working days', tag: 'onboarding',
   },
   {
-    id: 'festive', badge: 'Seasonal Special',
+    id: 'festive', num: '02', badge: 'Seasonal Special',
     title: 'Festive & Seasonal Hampers',
     tagline: 'Celebrate every occasion in style',
     desc: 'From Diwali to Christmas and New Year, premium hampers that strengthen bonds with employees, clients, and partners.',
@@ -20,7 +20,7 @@ const products = [
     moq: '50 units', turnaround: '5–7 working days', tag: 'festive',
   },
   {
-    id: 'executive', badge: 'Premium Tier',
+    id: 'executive', num: '03', badge: 'Premium Tier',
     title: 'Executive Gifts',
     tagline: 'Exclusive gifts for those who matter most',
     desc: 'Reserved for top performers and high-value clients. Each gift is a statement of appreciation crafted from the finest materials.',
@@ -28,7 +28,7 @@ const products = [
     moq: '10 units', turnaround: '10–14 working days', tag: 'executive',
   },
   {
-    id: 'leather', badge: 'Handcrafted',
+    id: 'leather', num: '04', badge: 'Handcrafted',
     title: 'Premium Leather Collection',
     tagline: 'Timeless gifts of enduring quality',
     desc: 'Handcrafted products by skilled artisans — a blend of tradition and modern corporate elegance, embossed with your logo.',
@@ -36,7 +36,7 @@ const products = [
     moq: '25 units', turnaround: '10–12 working days', tag: 'leather',
   },
   {
-    id: 'branded', badge: 'High Volume',
+    id: 'branded', num: '05', badge: 'High Volume',
     title: 'Branded Merchandise',
     tagline: 'Put your brand in every hand',
     desc: 'Amplify your brand presence with high-quality merchandise. Ideal for events, trade shows, and large-scale gifting.',
@@ -44,7 +44,7 @@ const products = [
     moq: '100 units', turnaround: '7–10 working days', tag: 'branded',
   },
   {
-    id: 'custom', badge: 'Bespoke',
+    id: 'custom', num: '06', badge: 'Bespoke',
     title: 'Custom Corporate Gift Boxes',
     tagline: 'Your brand, your story, your box',
     desc: 'Completely bespoke solutions — every element chosen by you, from box design to products, inserts, and messaging.',
@@ -53,154 +53,69 @@ const products = [
   },
 ];
 
-// Small "gift-tag" style meta strip used on every card footer — MOQ / lead time
-// presented like a shipping label, tying the visual language back to gifting.
-function TagStrip({ moq, turnaround }) {
-  return (
-    <div
-      className="flex items-center gap-5 px-6 py-3 border-t"
-      style={{ borderColor: 'rgba(26,26,29,0.08)', borderStyle: 'dashed' }}
-    >
-      <div className="flex items-center gap-1.5">
-        <Package size={13} style={{ color: '#D4B06A' }} />
-        <span className="text-xs" style={{ color: '#999999' }}>
-          MOQ <strong style={{ color: '#1A1A1D' }}>{moq}</strong>
-        </span>
-      </div>
-      <span style={{ color: 'rgba(26,26,29,0.15)' }}>•</span>
-      <span className="text-xs" style={{ color: '#999999' }}>
-        Ships in <strong style={{ color: '#1A1A1D' }}>{turnaround}</strong>
-      </span>
-    </div>
-  );
-}
-
-function IncludedList({ id, includes, isOpen, onToggle }) {
-  return (
-    <div className="px-6 py-4 border-t" style={{ borderColor: 'rgba(26,26,29,0.08)' }}>
-      <button
-        id={`expand-${id}`}
-        onClick={onToggle}
-        className="flex items-center justify-between w-full text-left transition-opacity hover:opacity-70"
-      >
-        <span className="text-xs font-semibold uppercase" style={{ color: '#1A1A1D', letterSpacing: '0.14em' }}>
-          What's Included
-        </span>
-        <span
-          className="transition-transform duration-300 text-lg leading-none"
-          style={{ color: '#FF9E35', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-        >
-          ↓
-        </span>
-      </button>
-
-      <div
-        className="overflow-hidden transition-all duration-300"
-        style={{ maxHeight: isOpen ? '300px' : '0', marginTop: isOpen ? '14px' : '0' }}
-      >
-        <ul className="space-y-2">
-          {includes.map((item) => (
-            <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: '#555555' }}>
-              <Check size={12} className="mt-0.5 shrink-0" style={{ color: '#FF9E35' }} />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
+const filters = ['All', 'onboarding', 'festive', 'executive', 'leather', 'branded', 'custom'];
+const filterLabels = { All: 'All', onboarding: 'Onboarding', festive: 'Festive', executive: 'Executive', leather: 'Leather', branded: 'Branded', custom: 'Custom' };
 
 export default function Collections() {
+  const [active, setActive]     = useState('All');
   const [expanded, setExpanded] = useState(null);
-  const toggle = (id) => setExpanded((cur) => (cur === id ? null : id));
-
-  const [featured, ...rest] = products;
+  const visible = active === 'All' ? products : products.filter((p) => p.tag === active);
 
   return (
-    <main className="min-h-screen" style={{ backgroundColor: '#FAF7F2' }}>
+    <main className="min-h-screen pt-[68px]" style={{ backgroundColor: '#FAF7F2' }}>
 
       {/* ── Page Header ──────────────────────────── */}
-      <section className="pt-[calc(68px+5rem)] pb-16 md:pt-[calc(68px+7rem)] md:pb-20">
+      <section
+        className="py-20 md:py-28 border-b"
+        style={{ backgroundColor: '#FAF7F2', borderColor: 'rgba(26,26,29,0.08)' }}
+      >
         <div className="max-w-7xl mx-auto px-6">
           <p className="section-label mb-5">Premium Gift Collections</p>
           <h1 className="section-title mb-5 max-w-2xl">
-            Six Collections, Curated for{' '}
+            Curated Gifting for{' '}
             <em style={{ color: '#E67722', fontStyle: 'italic' }}>Every Occasion</em>
           </h1>
           <p className="text-base max-w-lg" style={{ color: '#666666', lineHeight: '1.8' }}>
-            Each category is built around the same commitment to quality, personalisation, and
-            brand excellence — from onboarding day to your top client's desk.
+            Six meticulously designed gifting categories — each crafted with the same commitment
+            to quality, personalisation, and brand excellence.
           </p>
         </div>
       </section>
 
-      {/* ── Featured Collection ──────────────────── */}
-      <section className="pb-16 md:pb-20">
+      {/* ── Filter Tabs ───────────────────────────── */}
+      <div
+        className="sticky top-[68px] z-30 bg-white border-b"
+        style={{ borderColor: 'rgba(26,26,29,0.08)' }}
+      >
         <div className="max-w-7xl mx-auto px-6">
-          <article
-            className="card grid grid-cols-1 md:grid-cols-2 overflow-hidden"
-            style={{ backgroundColor: '#FFFFFF' }}
-          >
-            <div className="overflow-hidden order-1 md:order-2 flex items-center" style={{ backgroundColor: '#FAF7F2' }}>
-              <img
-                src={`/images/home/collection-${featured.id}.png`}
-                alt={featured.title}
-                className="w-full h-auto block"
-              />
-            </div>
-
-            <div className="flex flex-col order-2 md:order-1">
-              <div className="px-8 pt-8 md:px-10 md:pt-10 flex-1">
-                <span
-                  className="inline-block text-xs font-semibold uppercase px-3 py-1 rounded-full mb-5"
-                  style={{ backgroundColor: 'rgba(230,119,34,0.1)', color: '#E67722', letterSpacing: '0.12em' }}
-                >
-                  {featured.badge}
-                </span>
-                <h2 className="font-display text-2xl md:text-3xl font-bold mb-2 leading-tight" style={{ color: '#1A1A1D' }}>
-                  {featured.title}
-                </h2>
-                <p className="text-sm font-medium mb-4" style={{ color: '#E67722' }}>
-                  {featured.tagline}
-                </p>
-                <p className="text-sm mb-6" style={{ color: '#666666', lineHeight: '1.75' }}>
-                  {featured.desc}
-                </p>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 mb-2">
-                  {featured.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: '#555555' }}>
-                      <Check size={12} className="mt-0.5 shrink-0" style={{ color: '#FF9E35' }} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <TagStrip moq={featured.moq} turnaround={featured.turnaround} />
-
-              <div className="px-8 py-6 md:px-10">
-                <Link
-                  to={`/contact?category=${encodeURIComponent(featured.title)}`}
-                  id={`quote-${featured.id}`}
-                  className="btn-primary w-full sm:w-auto justify-center text-sm"
-                >
-                  Request a Quote <ArrowRight size={14} />
-                </Link>
-              </div>
-            </div>
-          </article>
+          <div className="flex flex-wrap overflow-x-auto -mb-px">
+            {filters.map((f) => (
+              <button
+                key={f}
+                id={`filter-${f.toLowerCase()}`}
+                onClick={() => setActive(f)}
+                className="px-5 py-4 text-sm font-semibold whitespace-nowrap transition-all duration-200 border-b-2"
+                style={{
+                  color: active === f ? '#E67722' : '#666666',
+                  borderBottomColor: active === f ? '#FF9E35' : 'transparent',
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {filterLabels[f]}
+              </button>
+            ))}
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── Remaining Collections ─────────────────── */}
-      <section className="pb-24 md:pb-28">
+      {/* ── Catalogue Grid ────────────────────────── */}
+      <section style={{ backgroundColor: '#FFFFFF' }} className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {rest.map((p) => {
+            {visible.map((p) => {
               const isOpen = expanded === p.id;
               return (
-                <article key={p.id} className="card flex flex-col group" style={{ backgroundColor: '#FFFFFF' }}>
+                <article key={p.id} className="card flex flex-col group">
 
                   <div className="w-full overflow-hidden">
                     <img
@@ -210,17 +125,25 @@ export default function Collections() {
                     />
                   </div>
 
-                  <div className="px-6 pt-6 pb-1">
+                  {/* Card top bar */}
+                  <div
+                    className="flex items-center justify-between px-6 py-3.5 border-b"
+                    style={{ borderColor: 'rgba(26,26,29,0.07)' }}
+                  >
                     <span
-                      className="inline-block text-xs font-semibold uppercase px-2.5 py-1 rounded-full mb-3"
-                      style={{ backgroundColor: 'rgba(212,176,106,0.14)', color: '#B8934F', letterSpacing: '0.1em' }}
+                      className="text-xs font-semibold uppercase"
+                      style={{ color: '#D4B06A', letterSpacing: '0.18em' }}
                     >
-                      {p.badge}
+                      {p.num} — {p.badge}
+                    </span>
+                    <span className="text-xs font-medium" style={{ color: '#AAAAAA' }}>
+                      MOQ {p.moq}
                     </span>
                   </div>
 
-                  <div className="px-6 pb-5 flex-1">
-                    <h2 className="font-display text-lg font-bold mb-1.5 leading-tight" style={{ color: '#1A1A1D' }}>
+                  {/* Main content */}
+                  <div className="p-6 border-b flex-1" style={{ borderColor: 'rgba(26,26,29,0.07)' }}>
+                    <h2 className="font-display text-xl font-bold mb-1.5 leading-tight" style={{ color: '#1A1A1D' }}>
                       {p.title}
                     </h2>
                     <p className="text-sm font-medium mb-3" style={{ color: '#E67722' }}>
@@ -231,11 +154,44 @@ export default function Collections() {
                     </p>
                   </div>
 
-                  <IncludedList id={p.id} includes={p.includes} isOpen={isOpen} onToggle={() => toggle(p.id)} />
+                  {/* What's included — expandable */}
+                  <div className="px-6 py-4 border-b" style={{ borderColor: 'rgba(26,26,29,0.07)' }}>
+                    <button
+                      id={`expand-${p.id}`}
+                      onClick={() => setExpanded(isOpen ? null : p.id)}
+                      className="flex items-center justify-between w-full text-left transition-opacity hover:opacity-70"
+                    >
+                      <span className="text-xs font-semibold uppercase" style={{ color: '#1A1A1D', letterSpacing: '0.14em' }}>
+                        What's Included
+                      </span>
+                      <span
+                        className="transition-transform duration-300 text-lg leading-none"
+                        style={{ color: '#FF9E35', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                      >
+                        ↓
+                      </span>
+                    </button>
 
-                  <TagStrip moq={p.moq} turnaround={p.turnaround} />
+                    <div
+                      className="overflow-hidden transition-all duration-300"
+                      style={{ maxHeight: isOpen ? '300px' : '0', marginTop: isOpen ? '14px' : '0' }}
+                    >
+                      <ul className="space-y-2">
+                        {p.includes.map((item) => (
+                          <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: '#555555' }}>
+                            <Check size={12} className="mt-0.5 shrink-0" style={{ color: '#FF9E35' }} />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
 
+                  {/* Card footer */}
                   <div className="px-6 py-5">
+                    <p className="text-xs mb-4" style={{ color: '#AAAAAA' }}>
+                      Lead time — <strong style={{ color: '#1A1A1D' }}>{p.turnaround}</strong>
+                    </p>
                     <Link
                       to={`/contact?category=${encodeURIComponent(p.title)}`}
                       id={`quote-${p.id}`}
@@ -248,6 +204,13 @@ export default function Collections() {
               );
             })}
           </div>
+
+          {visible.length === 0 && (
+            <div className="text-center py-24">
+              <p className="font-display text-2xl font-bold mb-2" style={{ color: '#1A1A1D' }}>No results</p>
+              <p className="text-sm" style={{ color: '#AAAAAA' }}>Try a different category filter.</p>
+            </div>
+          )}
         </div>
       </section>
 
