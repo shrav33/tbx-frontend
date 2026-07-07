@@ -8,6 +8,7 @@ import About       from './pages/About';
 import Contact     from './pages/Contact';
 import AdminLogin     from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import Pouches from './pages/Pouches';
 
 const PublicLayout = ({ children }) => (
   <>
@@ -40,8 +41,9 @@ function App() {
         <Route path="/collections" element={<PublicLayout><Collections /></PublicLayout>} />
         <Route path="/about"       element={<PublicLayout><About /></PublicLayout>} />
         <Route path="/contact"     element={<PublicLayout><Contact /></PublicLayout>} />
-        <Route path="/admin"           element={<AdminLogin />} />
+        <Route path="/admin"       element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/Pouches" element={<PublicLayout><Pouches /></PublicLayout>} />
       </Routes>
     </BrowserRouter>
   );
